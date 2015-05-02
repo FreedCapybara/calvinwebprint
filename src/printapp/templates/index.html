@@ -4,58 +4,58 @@
   
   <script type="text/x-handlebars" data-template-name="application">
   {{#if isAuthenticated}}
-    {{partial "welcome"}}
     {{render "cloudprint" cloudprint}}
-    {{partial "queue"}}
     {{partial "budget"}}
+	{{partial "prices"}}
+    {{partial "queue"}}
+	{{render "printers" printers}}
+	{{partial "welcome"}}
+	<!--{{partial "welcome"}}-->
   {{else}}
     {{render "signIn" signIn}}
+	{{partial "prices"}}
+	{{render "printers" printers}}
   {{/if}}
-  {{render "printers" printers}}
-  {{partial "prices"}}
-  {{outlet}}
+    {{outlet}}
   </script>
   
   <script type="text/x-handlebars" data-template-name="signIn">
-  <div class="row">
-    <div class="small-12 columns">
-      <h3 class="subheader">Welcome</h3>
-      <p>
-        Sign in with your Calvin username and passphrase.
-      </p>
-      <div class="row">
-        <div class="small-12 medium-8 columns">
-          <div id="signInError" data-alert hidden class="alert-box alert radius">
-            The username or passphrase you entered is incorrect.
-            <a href="#" class="close">&times;</a>
-          </div>
-          <div id="signInErrorUniflowDown" data-alert hidden class="alert-box alert radius">
-            <strong>Oops!</strong> We’re having trouble connecting to uniFLOW. It looks like uniFLOW may be down.
-            <a href="#" class="close">&times;</a>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="small-12 medium-4 columns">
-          <label>Username
-            {{input action='signin' type="text" value=inputUsername autofocus="autofocus" autocapitalize="off"}}
-          </label>
-          <label>Passphrase
-            {{input action='signin' type="password" value=inputPassword}}
-          </label>
-          <button {{action 'signin'}} {{bind-attr disabled=submitting}}>
-            {{#if submitting}}
-              Signing in...
-            {{else}}
-              Sign in
-            {{/if}}
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="login-section">
+	  <div class="row">
+		<div class="small-12 columns">
+		  <h1 class="headline">Always get your papers in on time.</h1>
+		  <div class="row">
+			<div class="small-12 medium-4 medium-offset-4 columns text-left">
+				<p>
+				Sign in with your Calvin username and passphrase.
+			  </p>
+			  <div id="signInError" data-alert hidden class="alert-box alert radius">
+				The username or passphrase you entered is incorrect.
+				<a href="#" class="close">&times;</a>
+			  </div>
+			  <div id="signInErrorUniflowDown" data-alert hidden class="alert-box alert radius">
+				<strong>Oops!</strong> We’re having trouble connecting to uniFLOW. It looks like uniFLOW may be down.
+				<a href="#" class="close">&times;</a>
+			  </div>
 
-  <hr />
+			  <label>Username
+				{{input action='signin' type="text" value=inputUsername autofocus="autofocus" autocapitalize="off"}}
+			  </label>
+			  <label>Passphrase
+				{{input action='signin' type="password" value=inputPassword}}
+			  </label>
+			  <button {{action 'signin'}} {{bind-attr disabled=submitting}}>
+				{{#if submitting}}
+				  Signing in...
+				{{else}}
+				  Sign in
+				{{/if}}
+			  </button>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
   </script>
 
   <script type="text/x-handlebars" data-template-name="welcome">
@@ -104,14 +104,12 @@
       {{/if}}
     </div>
   </div>
-
-  <hr />
   </script>
 
   <script type="text/x-handlebars" data-template-name="queue">
-  <div class="row">
+  <div class="row content-row">
     <div class="small-12 columns">
-      <h4>Print Queue</h4>
+      <h2>Your Print Queue</h2>
       <p>
         When you upload a document, it is added to your print queue. To print a queued document, scan your Calvin ID at any printer on campus.
       </p>
@@ -172,14 +170,12 @@
 
     </div>
   </div>
-
-  <hr />
   </script>
 
   <script type="text/x-handlebars" data-template-name="cloudprint">
-  <div class="row">
+  <div class="row content-row">
     <div class="small-12 columns">
-      <h4>Print</h4>
+	  <h2 class="text-center">Print Easier. Print Better.</h2>
 
       {{#if isLoaded}}
 
@@ -190,9 +186,10 @@
             {{partial "addPrinter"}}
           {{/if}}
         {{else}}
-          <h5>Connect with Google Cloud Print</h5>
-          <p>In order to print, connect with your StudentMail Google Cloud Print account.</p>
+		<div class="text-center">
+          <h5>In order to print, connect with your StudentMail Google Cloud Print account.</h5>
           <a {{bind-attr href=cloudPrintPermissionUrl}}><button>Connect your account</button></a>
+		</div>
         {{/if}}
 
       {{else}}
@@ -206,7 +203,9 @@
             We’re having trouble loading the print form. Reload the page to try again. If this does not solve the problem, try signing out and signing back in.
           </p>
         {{else}}
+		<div class="text-center">
           <i class="fa fa-refresh fa-spin fa-2x loading-spinner" title="Loading..."></i>
+		</div>
         {{/if}}
 
         </div>
@@ -216,9 +215,6 @@
 
     </div>
   </div>
-
-  <hr />
-
   </script>
 
   <script type="text/x-handlebars" data-template-name="addPrinter">
@@ -251,10 +247,7 @@
 
   <script type="text/x-handlebars" data-template-name="printForm">
   <div class="row">
-    <div class="small-12 columns">
-      <p>
-        Upload a file to print. Use PDF files for best results.
-      </p>
+    <div class="small-12 columns drop-target text-center">
       <div id="printSuccess" data-alert hidden class="alert-box success radius">
         <strong>Success!</strong> To retrieve your document, swipe your student ID at any printer on campus.
         <a href="#" class="close">&times;</a>
@@ -272,15 +265,17 @@
         <a href="#" class="close">&times;</a>
       </div>
       {{#if fileSelected}}
-        <p>
-          <button {{action 'selectFile'}}>Select a file</button>
-        </p>
+		<h5>Drop files here or</h5>
+		  <p><button {{action 'selectFile'}}>Select a file</button></p>
+		  <p>
+			Tip: PDF files work best.
+		  </p>
       {{else}}
         <p>
           <button class="secondary" {{action 'cancelUpload'}} {{bind-attr disabled=printing}}>Cancel upload</button>
         </p>
         {{fileName}}
-        <div class="progress large-4 small-5 secondary success"> 
+        <div class="progress secondary success"> 
           <span class="meter" {{bind-attr style=uploadProgressBarWidth}}></span> 
         </div>
       {{/if}}
@@ -334,6 +329,7 @@
   <script type="text/x-handlebars" data-template-name="printers">
   <div class="row">
     <div class="small-12 columns">
+	  <h2>Pick Up Your Printing</h2>
       <h4>Printer Locations</h4>
       {{#if isLoaded}}
         <div class="row">
@@ -397,10 +393,12 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="prices">
-  <div class="row">
+  <div class="row content-row">
     <div class="small-12 columns">
-      <h4>Prices</h4>
-      <h6><span class="small-caps bold">mfd</span> <small>Multi-function display</small></h6>
+      <h2>Printing Prices</h2>
+  <div class="row">
+    <div class="small-12 medium-6 columns">
+	  <h6><span class="bold">MFD</span> <span>(Multi-function display)</span></h6>
       <p>
         The large printer/copier combo machines are called <span class="small-caps">mfd</span>s. These are the most affordable option.
       </p>
@@ -426,6 +424,8 @@
         </tbody>
       </table>
       
+	</div>
+    <div class="small-12 medium-6 columns">
       <h6 class="bold">Laser Printer</h6>
       <p>
         The smaller printers are laser printers. These are more expensive but produce higher quality images.
@@ -451,10 +451,10 @@
           </tr>
         </tbody>
       </table>
+	</div>
+	</div>
     </div>
   </div>
-
-  <hr />
   </script>
 
   <script type="text/x-handlebars" data-template-name="campusMap">
