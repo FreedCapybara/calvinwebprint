@@ -4,13 +4,12 @@
   
   <script type="text/x-handlebars" data-template-name="application">
   {{#if isAuthenticated}}
+	{{partial "welcome"}}
     {{render "cloudprint" cloudprint}}
     {{partial "budget"}}
 	{{partial "prices"}}
     {{partial "queue"}}
 	{{render "printers" printers}}
-	{{partial "welcome"}}
-	<!--{{partial "welcome"}}-->
   {{else}}
     {{render "signIn" signIn}}
 	{{partial "prices"}}
@@ -59,14 +58,12 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="welcome">
-  <div class="row">
+  <div class="row content-row">
     <div class="small-12 columns">
         <h3 class="subheader">Welcome, {{email}}</h3>
         <button {{action 'signout'}}>Sign out</button>
     </div>
   </div>
-
-  <hr />
   </script>
 
   <script type="text/x-handlebars" data-template-name="budget">
@@ -175,7 +172,6 @@
   <script type="text/x-handlebars" data-template-name="cloudprint">
   <div class="row content-row">
     <div class="small-12 columns">
-	  <h2 class="text-center">Print Easier. Print Better.</h2>
 
       {{#if isLoaded}}
 

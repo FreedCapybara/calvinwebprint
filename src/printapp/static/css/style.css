@@ -35,8 +35,8 @@ button:hover, button:focus {
 }
 
 .drop-target {
-	padding-top: 160px;
-	padding-bottom: 160px;
+	padding-top: 80px;
+	padding-bottom: 80px;
 	border: 3px dashed #ddd;
 	background-color: #fefefe;
 	border-radius: 6px;
