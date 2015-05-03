@@ -7,17 +7,17 @@
 	{{partial "welcome"}}
     {{render "cloudprint" cloudprint}}
     {{partial "queue"}}
-	{{render "printers" printers}}
-    {{partial "budget"}}
-	{{partial "prices"}}
   {{else}}
     {{render "signIn" signIn}}
-	{{partial "prices"}}
-	{{render "printers" printers}}
   {{/if}}
+    {{render "printers" printers}}
+  {{#if isAuthenticated}}
+    {{partial "budget"}}
+  {{/if}}
+    {{partial "prices"}}
     {{outlet}}
   </script>
-  
+
   <script type="text/x-handlebars" data-template-name="signIn">
 	<div class="login-section">
 	  <div class="row">
@@ -58,12 +58,10 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="welcome">
-  <div class="row content-row">
-    <div class="small-12 columns">
-        <h3 class="subheader">Welcome, {{email}}</h3>
+      <div class="welcome">
+        <span class="subheader show-for-medium-up welcome-text">Welcome, {{email}}</span>
         <button {{action 'signout'}}>Sign out</button>
-    </div>
-  </div>
+      </div>
   </script>
 
   <script type="text/x-handlebars" data-template-name="budget">
@@ -106,11 +104,11 @@
   <script type="text/x-handlebars" data-template-name="queue">
   <div class="row content-row">
     <div class="small-12 columns">
-      <h2>Your Print Queue</h2>
+      <h3>Your Print Queue</h3>
       <p>
         When you upload a document, it is added to your print queue. To print a queued document, scan your Calvin ID at any printer on campus.
       </p>
-      
+
       {{#if isLoaded}}
 
         <div id="queueError" data-alert hidden class="alert-box alert radius">
@@ -271,41 +269,41 @@
           <button class="secondary" {{action 'cancelUpload'}} {{bind-attr disabled=printing}}>Cancel upload</button>
         </p>
         {{fileName}}
-        <div class="progress secondary success"> 
-          <span class="meter" {{bind-attr style=uploadProgressBarWidth}}></span> 
+        <div class="progress secondary success">
+          <span class="meter" {{bind-attr style=uploadProgressBarWidth}}></span>
         </div>
       {{/if}}
     </div>
   </div>
-  <div class="row">
-    <div class="small-5 medium-2 columns end">
+  <div class="row options-row">
+    <div class="small-6 medium-3 columns end">
           <label>Copies
-            {{input type="number" value=copies min="1"}}
+            {{input type="number" class="copies-input" value=copies min="1"}}
           </label>
         </div>
-        <div class="small-6 medium-2 columns end">
+        <div class="small-6 medium-3 columns end">
+            <div>
           {{input type="checkbox" id="color-checkbox" checked=color}} <label for="color-checkbox">Color</label>
-        </div>
-        <div class="small-6 medium-2 columns end">
+            </div>
+            <div>
           {{input type="checkbox" id="double-sided-checkbox" disabled=disableDoubleSided checked=doubleSided}} <label for="double-sided-checkbox">Double sided</label>
-        </div>
-        <div class="small-6 medium-2 columns end">
+            </div>
+            <div>
           {{input type="checkbox" id="staple-checkbox" disabled=disableStaple checked=staple}} <label for="staple-checkbox" title="Only the large printer/copier combo machines can staple your document">Staple</label>
-        </div>
+            </div>
       {{#if showCollate}}
-          <div class="small-6 medium-2 columns end">
+            <div>
             {{input type="checkbox" id="collate-checkbox" checked=collate}} <label for="collate-checkbox">Collate</label>
-          </div>
+            </div>
       {{/if}}
-          <div class="small-6 medium-2 columns end">
-      <button {{action 'submit'}} {{bind-attr disabled=notReadyToSubmit}}>
+        </div>
+      <button class="right" {{action 'submit'}} {{bind-attr disabled=notReadyToSubmit}}>
         {{#if printing}}
           Submitting...
         {{else}}
           Submit
         {{/if}}
       </button>
-          </div>
     </div>
   </div>
 
@@ -314,10 +312,9 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="printers">
-  <div class="row">
+  <div class="row content-row">
     <div class="small-12 columns">
-	  <h2>Pick Up Your Printing</h2>
-      <h4>Printer Locations</h4>
+      <h3>Printer Locations</h3>
       {{#if isLoaded}}
         <div class="row">
           <div class="small-12 medium-6 columns">
@@ -336,7 +333,7 @@
                   {{else}}
                     <li class="printer-item">
                   {{/if}}
-                   
+
                   {{#if printer.displayNameOverride}}
                     <strong>{{printer.displayNameOverride}}</strong>
                   {{else}}
@@ -375,21 +372,19 @@
       {{/if}}
     </div>
   </div>
-
-  <hr />
   </script>
 
   <script type="text/x-handlebars" data-template-name="prices">
   <div class="row content-row">
     <div class="small-12 columns">
-      <h2>Printing Prices</h2>
+      <h3>Printing Prices</h3>
   <div class="row">
     <div class="small-12 medium-6 columns">
 	  <h6><span class="bold">MFD</span> <span>(Multi-function display)</span></h6>
       <p>
         The large printer/copier combo machines are called <span class="small-caps">mfd</span>s. These are the most affordable option.
       </p>
-      <table> 
+      <table>
         <thead>
           <tr>
             <th>Duplex</th>
@@ -410,14 +405,14 @@
           </tr>
         </tbody>
       </table>
-      
+
 	</div>
     <div class="small-12 medium-6 columns">
       <h6 class="bold">Laser Printer</h6>
       <p>
         The smaller printers are laser printers. These are more expensive but produce higher quality images.
       </p>
-      <table> 
+      <table>
         <thead>
           <tr>
             <th>Duplex</th>
@@ -442,6 +437,8 @@
 	</div>
     </div>
   </div>
+
+      <hr />
   </script>
 
   <script type="text/x-handlebars" data-template-name="campusMap">
