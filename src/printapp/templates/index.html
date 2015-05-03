@@ -6,10 +6,10 @@
   {{#if isAuthenticated}}
 	{{partial "welcome"}}
     {{render "cloudprint" cloudprint}}
-    {{partial "budget"}}
-	{{partial "prices"}}
     {{partial "queue"}}
 	{{render "printers" printers}}
+    {{partial "budget"}}
+	{{partial "prices"}}
   {{else}}
     {{render "signIn" signIn}}
 	{{partial "prices"}}
@@ -278,36 +278,26 @@
     </div>
   </div>
   <div class="row">
-    <div class="small-12 columns">
-      <div class="row">
-        <div class="large-2 medium-2 small-5 columns end">
+    <div class="small-5 medium-2 columns end">
           <label>Copies
             {{input type="number" value=copies min="1"}}
           </label>
         </div>
-      </div>
-      <div class="row">
-        <div class="small-12 columns end">
+        <div class="small-6 medium-2 columns end">
           {{input type="checkbox" id="color-checkbox" checked=color}} <label for="color-checkbox">Color</label>
         </div>
-      </div>
-      <div class="row">
-        <div class="small-12 columns end">
+        <div class="small-6 medium-2 columns end">
           {{input type="checkbox" id="double-sided-checkbox" disabled=disableDoubleSided checked=doubleSided}} <label for="double-sided-checkbox">Double sided</label>
         </div>
-      </div>
-      <div class="row">
-        <div class="small-12 columns end">
+        <div class="small-6 medium-2 columns end">
           {{input type="checkbox" id="staple-checkbox" disabled=disableStaple checked=staple}} <label for="staple-checkbox" title="Only the large printer/copier combo machines can staple your document">Staple</label>
         </div>
-      </div>
       {{#if showCollate}}
-        <div class="row">
-          <div class="small-12 columns end">
+          <div class="small-6 medium-2 columns end">
             {{input type="checkbox" id="collate-checkbox" checked=collate}} <label for="collate-checkbox">Collate</label>
           </div>
-        </div>
       {{/if}}
+          <div class="small-6 medium-2 columns end">
       <button {{action 'submit'}} {{bind-attr disabled=notReadyToSubmit}}>
         {{#if printing}}
           Submitting...
@@ -315,6 +305,7 @@
           Submit
         {{/if}}
       </button>
+          </div>
     </div>
   </div>
 
